@@ -72,8 +72,9 @@ app.layout = html.Div(children=[
 
         html.Div(children='''
             Data provided by the New York Times - https://github.com/nytimes/covid-19-data/blob/master/us.csv
-            Code can be fonund here - https://github.com/skmcwilliams/covid_app
         '''),
+
+        html.H3(children='Code can be found here - https://github.com/skmcwilliams/covid_app'),
 
         dcc.Graph(
             id='EMA',
