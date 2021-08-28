@@ -74,7 +74,7 @@ pct.update_layout(title='Metrics as Percentage of Population',
 
 mapfig = px.choropleth(counties_df, geojson=counties, locations='fips', color='cases',
                            color_continuous_scale="Viridis",
-                           range_color=range(0,max(counties_df['cases'])*0.75),
+                           range_color=range(0,int(max(counties_df['cases'])*0.75)),
                            scope="usa",
                            labels={'cases':'Daily Cases'}
                           )
