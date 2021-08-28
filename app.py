@@ -24,6 +24,7 @@ counties_df = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-da
 
 states['date'] = pd.to_datetime(states['date'])
 counties_df['date'] = pd.to_datetime(counties_df['date'])
+counties_df = counties_df.drop_duplicates(subset='fips',keep='first')
 
 # create columns based on provided data relative to individual weekly numbers and US population
 states['new_cases'] = states['cases'].diff(periods=1)
