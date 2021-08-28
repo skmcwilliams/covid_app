@@ -57,9 +57,7 @@ fig3 = px.line(data,x='date',y='cases')
 fig3.update_layout(title='Covid-19 in the US',yaxis_title='Cases',xaxis_title='Date')
 
 fig4 = go.Figure()
-fig4.add_trace(go.Scatter(x=data['date'],y=data['cases_per_pop'],mode='lines',name='Cases',line=dict(color='yellow'),fill='tonexty'))
-fig4.add_trace(go.Scatter(x=data['date'],y=data['deaths_per_pop'],name='Deaths',line=dict(color='turquoise'),fill='tonexty'))
-fig4.add_trace(go.Scatter(x=data['date'],y=data['mortality_rate'],name='Mortality Rate',line=dict(color='hotpink'),fill='tonexty'))
+fig4.add_trace(go.Bar(x=data['date'],y=data['cases_per_pop','deaths_per_pop',"deaths_per_pop"],name='Cases',marker_color=['yellow',"turquoise","hotpink"]))
 fig4.update_layout(title='Metrics as Percentage of Population',
                    yaxis_title='Percent',xaxis_title='Date')
 
