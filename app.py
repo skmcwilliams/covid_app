@@ -32,8 +32,6 @@ states = pd.read_csv(states)
 counties_df = pd.read_csv(counties_str)
 states['date'] = pd.to_datetime(states['date'])
 counties_df['date'] = pd.to_datetime(counties_df['date'])
-fips['date'] = pd.to_datetime(fips['date'])
-
 counties_df = pd.merge(counties_df,fips, on='fips',how='left')
 
 # create columns based on provided data relative to individual weekly numbers and US population
