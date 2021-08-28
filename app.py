@@ -26,8 +26,8 @@ data['date'] = pd.to_datetime(data['date'])
 # create columns based on provided data relative to individual weekly numbers and US population
 data['new_cases'] = data['cases'].diff(periods=1)
 data['new_deaths'] = data['deaths'].diff(periods=1)
-data['cases_per_pop'] = [(cases/pop)*100 for cases in data['cases']]
-data['deaths_per_pop'] = [(deaths/pop)*100 for deaths in data['deaths']]
+data['cases_per_pop'] = data['cases'].apply(lambda x: (x/pop)*100)
+data['deaths_per_pop'] = data['deaths'].apply(lambda x: (x/pop)*100)
 data['mortality_rate'] = (data['deaths']/data['cases'])*100
 data['case_rate'] = ((data.new_cases - data.new_cases.shift(1)) / data.new_cases.shift(1))*100
 
@@ -54,7 +54,7 @@ fig2.update_layout(title='Daily Case Distribution and Violin Plot',
 
 #Plot total cases over time
 fig3 = px.line(data,x='date',y='cases')
-fig3.update_layout(title='Covid-19 in the US',yaxis_title='Cases',xaxis_title='Date')
+fig3.update_layout(title='Covid-19 in the US',yaxis_title='Daily Cases',xaxis_title='Date')
 
 fig4 = go.Figure()
 fig4.add_trace(go.Scatter(x=data['date'],y=data['cases_per_pop'],name='Cases',line=dict(color='yellow'),fill='tonexty'))
