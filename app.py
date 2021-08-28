@@ -107,12 +107,12 @@ app.layout = html.Div(children=[
             figure=pct
         ),  
     ]),
-     html.Div([
-        dcc.Graph(
-            id='map',
-            figure=mapfig
-        ),  
-    ]),
+    # html.Div([
+     #   dcc.Graph(
+      #      id='map',
+       #     figure=mapfig
+       # ),  
+    # ]),
     html.Div([
         dcc.Graph(
             id='total',
