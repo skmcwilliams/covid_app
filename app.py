@@ -41,7 +41,7 @@ EMA30 = data.new_cases.ewm(span=30, adjust=False).mean()
 
 fig = go.Figure()
 fig.add_trace(go.Bar(x=data['date'],y=data['new_cases'],name='Daily Cases'))
-fig.add_trace(go.Scatter(x=data['date'],y=EMA7,mode='lines',name='7-day Moving Average',line=dict(color='brightyellow')))
+fig.add_trace(go.Scatter(x=data['date'],y=EMA7,mode='lines',name='7-day Moving Average',line=dict(color='yellow')))
 fig.add_trace(go.Scatter(x=data['date'],y=EMA14,name='14-day Moving Average',line=dict(color='turquoise')))
 fig.add_trace(go.Scatter(x=data['date'],y=EMA30,name='30-day Moving Average',line=dict(color='hotpink')))
 fig.update_layout(title='Daily Covid-19 Cases in the US',yaxis_title='Cases',xaxis_title='Date',
@@ -57,7 +57,7 @@ fig3 = px.line(data,x='date',y='cases')
 fig3.update_layout(title='Covid-19 in the US',yaxis_title='Cases',xaxis_title='Date')
 
 fig4 = go.Figure()
-fig4.add_trace(go.Scatter(x=data['date'],y=data['cases_per_pop'],mode='lines',name='Cases',line=dict(color='brightyellow')))
+fig4.add_trace(go.Scatter(x=data['date'],y=data['cases_per_pop'],mode='lines',name='Cases',line=dict(color='yellow')))
 fig4.add_trace(go.Scatter(x=data['date'],y=data['deaths_per_pop'],name='Deaths',line=dict(color='turquoise')))
 fig4.add_trace(go.Scatter(x=data['date'],y=data['mortality_rate'],name='Mortality Rate',line=dict(color='hotpink')))
 fig4.update_layout(title='Metrics as Percentage of Population',
