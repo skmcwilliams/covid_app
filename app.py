@@ -61,7 +61,8 @@ fig4.add_trace(go.Scatter(x=data['date'],y=data['cases_per_pop'],name='Cases',li
 fig4.add_trace(go.Scatter(x=data['date'],y=data['deaths_per_pop'],name='Deaths',line=dict(color='turquoise'),fill='tozeroy'))
 fig4.add_trace(go.Scatter(x=data['date'],y=data['mortality_rate'],name='Mortality Rate',line=dict(color='hotpink'),fill='tonexty'))
 fig4.update_layout(title='Metrics as Percentage of Population',
-                   yaxis_title='Percent',xaxis_title='Date')
+                   yaxis_title='Percent',xaxis_title='Date',
+                   xaxis={'rangeslider': {'visible':True,}})
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -97,6 +98,19 @@ app.layout = html.Div(children=[
         '''),
 
         dcc.Graph(
+            id='percentages',
+            figure=fig4
+        ),  
+    ]),
+
+    html.Div([
+        html.H1(children=''),
+
+        html.Div(children='''
+            
+        '''),
+
+        dcc.Graph(
             id='total',
             figure=fig2
         ),  
@@ -112,19 +126,6 @@ app.layout = html.Div(children=[
         dcc.Graph(
             id='box',
             figure=fig3
-        ),  
-    ]),
-
-    html.Div([
-        html.H1(children=''),
-
-        html.Div(children='''
-            
-        '''),
-
-        dcc.Graph(
-            id='percentages',
-            figure=fig4
         ),  
     ]),
 ])
