@@ -116,33 +116,25 @@ app.layout = html.Div(children=[
             figure=pct
         ),  
     ]),
-
-    html.Div([
-        dcc.Graph(
-            id='total',
-            figure=total
-        ),  
-    ]),
-
-    html.Div([
-        dcc.Graph(
-            id='box',
-            figure=box
-        ),  
-    ]),
      html.Div([
         dcc.Graph(
             id='map',
             figure=mapfig
         ),  
     ]),
-
+    html.Div([
+        dcc.Graph(
+            id='total',
+            figure=total
+        ),  
+    ]),
     html.Div([
         dcc.Graph(
             id='box',
             figure=box
         ),  
     ]),
+
 ])
 
 if __name__ == '__main__':
