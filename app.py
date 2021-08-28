@@ -72,13 +72,13 @@ pct.update_layout(title='Metrics as Percentage of Population',
                    yaxis_title='Percent',xaxis_title='Date',
                    xaxis={'rangeslider': {'visible':True,}})
 
-mapfig = px.choropleth(counties_df, geojson=counties, locations='fips', color='cases',
-                           color_continuous_scale="Viridis",
-                           range_color=range(0,int(max(counties_df['cases'])*0.75)),
-                           scope="usa",
-                           labels={'cases':'Daily Cases'}
-                          )
-mapfig.update_layout(margin={"r":0,"t":0,"l":0,"b":0},title='COVID-19 Cases by County')
+mapfig = px.sunburst(
+    counties_df,
+    names='county',
+    parents='state',
+    values='cases',
+)
+mapfig.update_layout(title='COVID-19 Cases by County')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
