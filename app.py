@@ -17,22 +17,19 @@ import pandas as pd
 import plotly.graph_objects as go
 from urllib.request import urlopen
 import json
-with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
-    counties = json.load(response)
+
+response = urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json')
+counties = json.load(response)
 
 
 # Read in data from public sources
 pop = int(330593072)
-states = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv'
-counties_str = 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv'
-fips = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv",
-                   dtype={"fips": str})
+states = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv')
+counties_df = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv',
+                    dtype={"fips": str})
 
-states = pd.read_csv(states)
-counties_df = pd.read_csv(counties_str,dtype={"fips": str})
 states['date'] = pd.to_datetime(states['date'])
 counties_df['date'] = pd.to_datetime(counties_df['date'])
-counties_df = pd.merge(counties_df,fips, on='fips',how='left')
 
 # create columns based on provided data relative to individual weekly numbers and US population
 states['new_cases'] = states['cases'].diff(periods=1)
@@ -77,10 +74,11 @@ pct.update_layout(title='Metrics as Percentage of Population',
 
 mapfig = px.choropleth(counties_df, geojson=counties, locations='fips', color='cases',
                            color_continuous_scale="Viridis",
+                           range_color=range(0,max(counties_df['cases'])*0.75),
                            scope="usa",
                            labels={'cases':'Daily Cases'}
                           )
-mapfig.update_layout(margin={"r":0,"t":0,"l":0,"b":0},title='COVID-19 Cases by Couny')
+mapfig.update_layout(margin={"r":0,"t":0,"l":0,"b":0},title='COVID-19 Cases by County')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
