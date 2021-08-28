@@ -28,8 +28,7 @@ data['new_cases'] = data['cases'].diff(periods=1)
 data['new_deaths'] = data['deaths'].diff(periods=1)
 data['cases_per_pop'] = [(cases/pop)*100 for cases in data['cases']]
 data['deaths_per_pop'] = [(deaths/pop)*100 for deaths in data['deaths']]
-data['mortality_rate'] = data['deaths']/data['cases']
-data['mortality_rate'] = [dpc*100 for dpc in data['mortality_rate']]
+data['mortality_rate'] = (data['deaths']/data['cases'])*100
 data['case_rate'] = ((data.new_cases - data.new_cases.shift(1)) / data.new_cases.shift(1))*100
 
 pd.set_option('use_inf_as_na', True)
@@ -41,8 +40,8 @@ EMA14 = data.new_cases.ewm(span=14, adjust=False).mean()
 EMA30 = data.new_cases.ewm(span=30, adjust=False).mean()
 
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=data['date'],y=data['new_cases'],fill='tonexty',name='New Cases'))
-fig.add_trace(go.Scatter(x=data['date'],y=EMA7,mode='lines',name='7-day Moving Average',line=dict(color='black')))
+fig.add_trace(go.Bar(x=data['date'],y=data['new_cases'],name='Daily Cases'))
+fig.add_trace(go.Scatter(x=data['date'],y=EMA7,mode='lines',name='7-day Moving Average',line=dict(color='brightyellow')))
 fig.add_trace(go.Scatter(x=data['date'],y=EMA14,name='14-day Moving Average',line=dict(color='turquoise')))
 fig.add_trace(go.Scatter(x=data['date'],y=EMA30,name='30-day Moving Average',line=dict(color='hotpink')))
 fig.update_layout(title='Daily Covid-19 Cases in the US',yaxis_title='Cases',xaxis_title='Date',
@@ -50,12 +49,19 @@ fig.update_layout(title='Daily Covid-19 Cases in the US',yaxis_title='Cases',xax
 
 #Create histogram of cases
 fig2 = px.histogram(data,x='new_cases',marginal='box')
-fig2.update_layout(title='New Case Distribution and Violin Plot',
+fig2.update_layout(title='Daily Case Distribution and Violin Plot',
                    yaxis_title='Count',xaxis_title='Daily New Cases')
 
 #Plot total cases over time
 fig3 = px.line(data,x='date',y='cases')
 fig3.update_layout(title='Covid-19 in the US',yaxis_title='Cases',xaxis_title='Date')
+
+fig4 = go.Figure()
+fig4.add_trace(go.Scatter(x=data['date'],y=data['cases_per_pop'],mode='lines',name='Cases',line=dict(color='brightyellow')))
+fig4.add_trace(go.Scatter(x=data['date'],y=data['deaths_per_pop'],name='Deaths',line=dict(color='turquoise')))
+fig4.add_trace(go.Scatter(x=data['date'],y=data['mortality_rate'],name='Mortality Rate',line=dict(color='hotpink')))
+fig4.update_layout(title='Metrics as Percentage of Population',
+                   yaxis_title='Percent',xaxis_title='Date')
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -106,6 +112,19 @@ app.layout = html.Div(children=[
         dcc.Graph(
             id='box',
             figure=fig3
+        ),  
+    ]),
+
+    html.Div([
+        html.H1(children=''),
+
+        html.Div(children='''
+            
+        '''),
+
+        dcc.Graph(
+            id='percentages',
+            figure=fig4
         ),  
     ]),
 ])
