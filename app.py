@@ -15,12 +15,6 @@ import dash_html_components as html
 import plotly.express as px
 import pandas as pd
 import plotly.graph_objects as go
-from urllib.request import urlopen
-import json
-
-response = urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json')
-counties = json.load(response)
-
 
 # Read in data from public sources
 pop = int(330593072)
