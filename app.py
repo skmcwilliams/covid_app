@@ -19,12 +19,12 @@ import plotly.graph_objects as go
 # Read in data from public sources
 pop = int(330593072)
 states = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv')
-counties_df = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv',
-                    dtype={"fips": str})
+# counties_df = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv',
+#                    dtype={"fips": str})
 
 states['date'] = pd.to_datetime(states['date'])
-counties_df['date'] = pd.to_datetime(counties_df['date'])
-counties_df = counties_df.drop_duplicates(subset='fips',keep='first')
+# counties_df['date'] = pd.to_datetime(counties_df['date'])
+# counties_df = counties_df.drop_duplicates(subset='fips',keep='first')
 
 # create columns based on provided data relative to individual weekly numbers and US population
 states['new_cases'] = states['cases'].diff(periods=1)
@@ -47,7 +47,7 @@ cases.add_trace(go.Bar(x=states['date'],y=states['new_cases'],name='Daily Cases'
 cases.add_trace(go.Scatter(x=states['date'],y=EMA7,mode='lines',name='7-day Moving Average',line=dict(color='yellow')))
 cases.add_trace(go.Scatter(x=states['date'],y=EMA14,name='14-day Moving Average',line=dict(color='turquoise')))
 cases.add_trace(go.Scatter(x=states['date'],y=EMA30,name='30-day Moving Average',line=dict(color='hotpink')))
-cases.update_layout(title='Daily Covid-19 Cases in the US',yaxis_title='Cases',xaxis_title='Date',
+cases.update_layout(title='Daily New Covid-19 Cases in the US',yaxis_title='Cases',xaxis_title='Date',
                    xaxis={'rangeslider': {'visible':True,}})
 
 #Create histogram of cases
@@ -60,13 +60,13 @@ total = px.line(states,x='date',y='cases')
 total.update_layout(title='Covid-19 in the US',yaxis_title='Daily Cases',xaxis_title='Date')
 
 pct = go.Figure()
-pct.add_trace(go.Scatter(x=states['date'],y=states['cases_per_pop'],name='Cases',line=dict(color='yellow'),fill='tonexty'))
-pct.add_trace(go.Scatter(x=states['date'],y=states['deaths_per_pop'],name='Deaths',line=dict(color='turquoise'),fill='tozeroy'))
+pct.add_trace(go.Scatter(x=states['date'],y=states['cases_per_pop'],name='Cases as Percentage of US Population',line=dict(color='yellow'),fill='tonexty'))
+pct.add_trace(go.Scatter(x=states['date'],y=states['deaths_per_pop'],name='Deaths as Percentage of US Population',line=dict(color='turquoise'),fill='tozeroy'))
 pct.add_trace(go.Scatter(x=states['date'],y=states['mortality_rate'],name='Mortality Rate',line=dict(color='hotpink'),fill='tonexty'))
-pct.update_layout(title='Metrics as Percentage of Population',
+pct.update_layout(title='Percentage-based Metrics',
                    yaxis_title='Percent',xaxis_title='Date',
                    xaxis={'rangeslider': {'visible':True,}})
-
+"""
 mapfig = px.sunburst(
     counties_df,
     names='county',
@@ -74,7 +74,7 @@ mapfig = px.sunburst(
     values='cases',
 )
 mapfig.update_layout(title='COVID-19 Cases by County')
-
+"""
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
